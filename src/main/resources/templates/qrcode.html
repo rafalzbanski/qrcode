@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <!-- Include jsPDF -->
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="text-center">QR Code Generator</h1>
+
+    <form class="mt-4" id="qrCodeForm">
+        <div class="mb-3">
+            <label for="contents" class="form-label">Contents</label>
+            <input type="text" class="form-control" id="contents" placeholder="Enter text or URL" required>
+        </div>
+        <div class="mb-3">
+            <label for="size" class="form-label">Size (150 - 350)</label>
+            <input type="number" class="form-control" id="size" placeholder="Default: 250" step="1">
+            <div class="text-danger mt-2" id="sizeError" style="display: none;">Size must be an integer between 150 and 350!</div> <!-- Error message for invalid size -->
+        </div>
+        <div class="mb-3">
+            <label for="correction" class="form-label">Error Correction Level</label>
+            <select class="form-select" id="correction">
+                <option value="" selected>Default: Low (L)</option>
+                <option value="L">Low (L)</option>
+                <option value="M">Medium (M)</option>
+                <option value="Q">Quartile (Q)</option>
+                <option value="H">High (H)</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="type" class="form-label">Image Type</label>
+            <select class="form-select" id="type">
+                <option value="" selected>Default: PNG</option>
+                <option value="png">PNG</option>
+                <option value="jpeg">JPEG</option>
+                <option value="gif">GIF</option>
+            </select>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="generateQRCode()">Generate QR Code</button>
+        <button type="button" class="btn btn-success" onclick="saveQRCodeAsPDF()">Save as PDF</button> <!-- New Save as PDF Button -->
+    </form>
+
+    <div class="mt-5 text-center">
+        <h3>Generated QR Code:</h3>
+        <img id="qrCodeImage" class="img-fluid" alt="QR Code will appear here" />
+    </div>
+</div>
+
+<script>
+    function isInteger(value) {
+        // Check if the value is an integer
+        return Number.isInteger(parseFloat(value)) && !isNaN(value);
+    }
+
+    function validateSize(size) {
+        // Ensure size is an integer and within the range 150-350
+        return isInteger(size) && size >= 150 && size <= 350;
+    }
+
+    function generateQRCode() {
+        const contents = document.getElementById('contents').value;
+        let size = document.getElementById('size').value || 250; // Default size: 250
+        let correction = document.getElementById('correction').value || 'L'; // Default correction: L
+        let type = document.getElementById('type').value || 'png'; // Default type: png
+        const imgElement = document.getElementById('qrCodeImage');
+        const sizeErrorElement = document.getElementById('sizeError');
+
+        // Validate the size input
+        if (!validateSize(size)) {
+            sizeErrorElement.style.display = 'block'; // Show the error message if size is invalid
+            return;
+        } else {
+            sizeErrorElement.style.display = 'none'; // Hide error if size is valid
+        }
+
+        if (contents) {
+            const url = `/api/qrcode?contents=${encodeURIComponent(contents)}&size=${size}&correction=${correction}&type=${type}`;
+            imgElement.src = url;
+        } else {
+            alert('Please fill the contents field!');
+        }
+    }
+
+    function saveQRCodeAsPDF() {
+        const imgElement = document.getElementById('qrCodeImage');
+        const contents = document.getElementById('contents').value;
+
+        if (!imgElement.src || !contents) {
+            alert('Please generate the QR code first!');
+            return;
+        }
+
+        // Create jsPDF document
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Add QR code image to the PDF
+        doc.text("Generated QR Code", 10, 10);
+        doc.addImage(imgElement.src, 'PNG', 15, 30, 180, 180); // Adjust size as needed
+
+        // Save the PDF
+        doc.save(`${contents}_QRCode.pdf`);
+    }
+</script>
+
+<script th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
