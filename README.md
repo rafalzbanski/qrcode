@@ -70,7 +70,7 @@ src
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/qrcode-generator.git
+git clone https://github.com/rafalzbanski/qrcode.git
 cd qrcode-generator
 ```
 
