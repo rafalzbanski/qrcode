@@ -1,5 +1,0 @@
-services:
-  - type: web
-    name: qrcode-generator
-    env: docker
-    dockerfilePath: Dockerfile
