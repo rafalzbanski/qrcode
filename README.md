@@ -31,6 +31,8 @@ This project uses the following technologies:
 - Google ZXing for generating QR codes
 - jsPDF for saving QR codes as PDFs
 - Bootstrap 5.1.3 for frontend styling
+- Gradle for build automation
+- Docker for containerization
 
 ## Project Structure
 
@@ -64,7 +66,7 @@ src
 ### Prerequisites
 
 - Java 17
-- Maven or Gradle build system
+- Gradle build system
 - Spring Boot 3.3.3
 
 ### Clone the Repository
@@ -96,7 +98,7 @@ The application will start, and it will be accessible at [http://localhost:8080/
 
 ## Usage
 
-1. Open your browser and navigate to [http://localhost:8080/api/](http://localhost:8080/api/).
+1. Open your browser and navigate to [https://qrcode-8wmm.onrender.com/api/](https://qrcode-8wmm.onrender.com/api/).
 2. Fill out the form:
    - Enter the desired content (text or URL) in the "Contents" field.
    - Specify the QR code size between 150-350 (default is 250).
@@ -106,35 +108,37 @@ The application will start, and it will be accessible at [http://localhost:8080/
 4. To save the generated QR code as a PDF, click the "Save as PDF" button.
 
 ### Example Input
-- **Contents**: https://example.com
+- **Contents**: https://www.wikipedia.org
 - **Size**: 300
 - **Error Correction Level**: M
 - **Image Type**: PNG
 
 ## Endpoints
 
-- **GET /api/qrcode**  
-  This API endpoint generates a QR code based on the provided parameters.
+1. **GET [https://qrcode-8wmm.onrender.com/api/qrcode](https://qrcode-8wmm.onrender.com/api/qrcode)**  
+   > This API endpoint generates a QR code based on the provided parameters.
 
-  - **Query Parameters**:
+   **Query Parameters**:
     - `contents` (required): The text or URL to encode in the QR code.
     - `size` (optional): The size of the QR code (150-350). Default is 250.
     - `correction` (optional): The error correction level (`L`, `M`, `Q`, `H`). Default is `L`.
     - `type` (optional): The image type (`png`, `jpeg`, `gif`). Default is `png`.
 
-  Example request:
+   **Example request:**
 
-GET [/api/qrcode?contents=https://example.com&size=300&correction=M&type=png](/api/qrcode?contents=https://example.com&size=300&correction=M&type=png)
+GET [https://qrcode-8wmm.onrender.com/api/qrcode?contents=https://www.wikipedia.org&size=300&correction=M&type=png](https://qrcode-8wmm.onrender.com/api/qrcode?contents=https://www.wikipedia.org&size=300&correction=M&type=png)
 
 
-This request will generate a PNG QR code with:
-- **Contents**: `https://example.com`
+**This request will generate a PNG QR code with:**
+- **Contents**: `https://www.wikipedia.org`
 - **Size**: `300x300 pixels`
 - **Error Correction Level**: `M` (Medium)
 - **Type**: PNG image format
 
-This endpoint serves the homepage with the QR code generation form, which allows you to generate QR codes by filling out the fields and submitting the form.
+2. **GET [https://qrcode-8wmm.onrender.com/api/](https://qrcode-8wmm.onrender.com/api/)** 
+> This endpoint serves the homepage with the QR code generation form, which allows you to generate QR codes by filling out the fields and submitting the form.
 
+Visit [GR Code Generator](https://qrcode-8wmm.onrender.com/api/) to access the application and satart generating GR codes.
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](https://choosealicense.com/licenses/mit/) for more details.
