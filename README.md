@@ -2,6 +2,8 @@
 
 This is a Spring Boot web application that generates QR codes based on user input. It allows you to customize the content, size, error correction level, and image format of the generated QR code. The generated QR code can be viewed directly in the browser or downloaded as a PDF.
 
+Visit [GR Code Generator](https://qrcode-8wmm.onrender.com/api/) to access the application and satart generating GR codes.
+
 ## Table of Contents
 
 - [Features](#features)
@@ -138,7 +140,6 @@ GET [https://qrcode-8wmm.onrender.com/api/qrcode?contents=https://www.wikipedia.
 2. **GET [https://qrcode-8wmm.onrender.com/api/](https://qrcode-8wmm.onrender.com/api/)** 
 > This endpoint serves the homepage with the QR code generation form, which allows you to generate QR codes by filling out the fields and submitting the form.
 
-Visit [GR Code Generator](https://qrcode-8wmm.onrender.com/api/) to access the application and satart generating GR codes.
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](https://choosealicense.com/licenses/mit/) for more details.
